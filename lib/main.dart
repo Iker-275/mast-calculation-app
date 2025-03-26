@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mast_calculator/utils/constant2.dart';
-import 'package:mast_calculator/utils/constants.dart';
-import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-import 'dart:math';
-import 'package:flutter/material.dart';
+
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -69,6 +63,7 @@ class _MastCalculatorScreenState extends State<MastCalculatorScreen> {
 
   final TextEditingController terrainController = TextEditingController();
   final TextEditingController mastController = TextEditingController();
+  final TextEditingController locationController = TextEditingController();
 
   int selectedMastType = 1;
   int selectedExposure = 1; // Default selection
@@ -112,7 +107,7 @@ class _MastCalculatorScreenState extends State<MastCalculatorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Colors.blueGrey,
         title: Text("Mast Calculation"),
         centerTitle: true,
         actions: [
@@ -139,7 +134,7 @@ class _MastCalculatorScreenState extends State<MastCalculatorScreen> {
               buildInputField("No of Sides (N)", noSidesController),
               //  buildInputField("Beta Factor", betaController),
               buildInputField("Equipment Weight(kg)", equipController),
-              // buildInputField("Enter mast type", mastController),
+              buildInputField2("Enter location", locationController),
               DropdownButtonFormField<int>(
                 value: selectedMastType,
                 decoration: InputDecoration(labelText: "Select Mast Type"),
@@ -281,6 +276,10 @@ class _MastCalculatorScreenState extends State<MastCalculatorScreen> {
                         msg: "Terrain Category is required!");
                     return;
                   }
+                  if (locationController.text.isEmpty) {
+                    Fluttertoast.showToast(msg: "Location is required!");
+                    return;
+                  }
                   if (selectedMastType == null) {
                     Fluttertoast.showToast(msg: "Please select a Mast Type");
                     return;
@@ -313,6 +312,8 @@ class _MastCalculatorScreenState extends State<MastCalculatorScreen> {
                   double vb = double.parse(VbController.text);
                   double beta = double.parse(betaController.text);
                   int noLuminaries = int.parse(numLuminariesController.text);
+                  String location = locationController.text;
+
                   double luminaryWidth =
                       double.parse(luminaryWidthController.text);
                   double luminaryHeight =
@@ -325,44 +326,24 @@ class _MastCalculatorScreenState extends State<MastCalculatorScreen> {
 
                   // Execute method after validation
                   ne.main(
-                    vb2: vb,
-                    totalHeight2: totalHeight,
-                    topDiameter2: topDiameter,
-                    bottomDiameter2: bottomDiameter,
-                    sidesNumber2: sidesNumber,
-                    fy2: fy,
-                    mastType2: selectedMastType,
-                    thicknesses2: thickness,
-                    noLuminaries2: noLuminaries,
-                    luminaryWidth2: luminaryWidth,
-                    luminaryHeight2: luminaryHeight,
-                    material2: selectedMaterialType,
-                    terrain2: selectedTerrainType,
-                    exposure2: selectedExposure,
-                    equipmentweight2: equipmentWeight,
-                    beta2: beta,
-                  );
+                      vb2: vb,
+                      totalHeight2: totalHeight,
+                      topDiameter2: topDiameter,
+                      bottomDiameter2: bottomDiameter,
+                      sidesNumber2: sidesNumber,
+                      fy2: fy,
+                      mastType2: selectedMastType,
+                      thicknesses2: thickness,
+                      noLuminaries2: noLuminaries,
+                      luminaryWidth2: luminaryWidth,
+                      luminaryHeight2: luminaryHeight,
+                      material2: selectedMaterialType,
+                      terrain2: selectedTerrainType,
+                      exposure2: selectedExposure,
+                      equipmentweight2: equipmentWeight,
+                      beta2: beta,
+                      location2: location);
                 },
-
-                // onPressed: () {
-                //   ne.main(
-                //       vb: null,
-                //       totalheight: null,
-                //       topDiameter: null,
-                //       bottomDiameter: null,
-                //       sidesNumber: null,
-                //       fy: null,
-                //       mastType: null,
-                //       thicknesses: [],
-                //       noLuminaries: null,
-                //       luminaryWidth: null,
-                //       luminaryHeight: null,
-                //       material: null,
-                //       terrain: null,
-                //       exposure: null,
-                //       equipmentweight: null,
-                //       beta: null);
-                // },
                 child: Text("Calculate"),
               ),
             ],
@@ -383,6 +364,20 @@ class _MastCalculatorScreenState extends State<MastCalculatorScreen> {
           border: OutlineInputBorder(),
         ),
         keyboardType: TextInputType.number,
+      ),
+    );
+  }
+
+  Widget buildInputField2(String label, TextEditingController controller) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(),
+        ),
+        keyboardType: TextInputType.text,
       ),
     );
   }

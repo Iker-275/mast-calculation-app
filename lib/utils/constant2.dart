@@ -15,92 +15,10 @@ double SAFETY_FACTOR_MATERIAL_STEEL = 1.15;
 double YOUNGS_MODULUS = 210000;
 double STEEL_DENSITY = 7850;
 double GRAVITY = 9.81;
-
-class MastCalculator {
-  double v1, h1, s1, v2, h2, s2, v3, h3, s3;
-  double n1, n2, n3;
-  double vTotal = 0, hTotal = 0, sTotal = 0, rTotal = 0;
-  double mastHeight = 0, totalForce = 0;
-  double windLoad = 0;
-  double deadLoad = 0;
-  double combinedLoad = 0;
-
-  MastCalculator({
-    required this.v1,
-    required this.h1,
-    required this.s1,
-    required this.v2,
-    required this.h2,
-    required this.s2,
-    required this.v3,
-    required this.h3,
-    required this.s3,
-    required this.n1,
-    required this.n2,
-    required this.n3,
-  });
-
-  void calculateForces() {
-    vTotal = (v1 * n1) + (v2 * n2) + (v3 * n3);
-    hTotal = (h1 * n1) + (h2 * n2) + (h3 * n3);
-    sTotal = (s1 * n1) + (s2 * n2) + (s3 * n3);
-    rTotal = sqrt(pow(vTotal, 2) + pow(hTotal, 2) + pow(sTotal, 2));
-
-    print("Total Vertical Load: $vTotal kN");
-    print("Total Horizontal Load: $hTotal kN");
-    print("Total Shear Load: $sTotal kN");
-    print("Resultant Load: $rTotal kN");
-  }
-
-  void calculateMastHeight() {
-    mastHeight = (n1 * 6) + (n2 * 6) + (n3 * 6);
-    print("Total Mast Height: $mastHeight meters");
-  }
-
-  void calculateWindLoad(double windPressure, double projectedArea) {
-    windLoad = windPressure * projectedArea;
-    print("Wind Load: $windLoad kN");
-  }
-
-  void calculateDeadLoad(double structureWeight) {
-    deadLoad = structureWeight;
-    print("Dead Load: $deadLoad kN");
-  }
-
-  void calculateCombinedLoad() {
-    combinedLoad = sqrt(pow(windLoad, 2) + pow(deadLoad, 2));
-    print("Combined Load: $combinedLoad kN");
-  }
-
-  // void main() {
-  // var result = ForceCoefficientCalculator.getForceCoefficient(5e5, 16);
-  // print(result['message']); // Print the formatted message
-  // print("Force Coefficient: ${result['Cf']}"); // Print the coefficient
-  // }
-
-  // void main() {
-  //   MastCalculator mast = MastCalculator(
-  //     v1: 2.0,
-  //     h1: 1.5,
-  //     s1: 1.2,
-  //     v2: 3.0,
-  //     h2: 2.0,
-  //     s2: 1.8,
-  //     v3: 4.0,
-  //     h3: 2.5,
-  //     s3: 2.2,
-  //     n1: 2,
-  //     n2: 3,
-  //     n3: 4,
-  //   );
-  //
-  //   mast.calculateForces();
-  //   mast.calculateMastHeight();
-  //   mast.calculateWindLoad(0.85, 50);
-  //   mast.calculateDeadLoad(120);
-  //   mast.calculateCombinedLoad();
-  // }
-}
+var mess = new Runes('\u{21d2}');
+var doubleArrow = new String.fromCharCodes(mess);
+var mess2 = new Runes('\u{2192}');
+var singleArrow = new String.fromCharCodes(mess);
 
 class MastSection {
   double height;
@@ -138,61 +56,61 @@ class Test2 {
       // Dodecagonal (12-sided)
       if (Re <= 2e5) {
         Cf = 1.3;
-        message = "Dodecagonal: Re ≤ 2×10⁵ ⇒ C_f = 1.3";
+        message = "Dodecagonal: Re ≤ 2×10⁵ = > C_f = 1.3";
       } else if (Re > 2e5 && Re <= 7e5) {
         Cf = 1.38 - 0.04 * Re_scaled;
         message =
-            "Dodecagonal: 2×10⁵ < Re ≤7×10⁵ ⇒ C_f = 1.38 - 0.04×${Re_scaled.toStringAsFixed(1)} = ${Cf.toStringAsFixed(2)}";
+            "Dodecagonal: 2×10⁵ < Re ≤7×10⁵ = > C_f = 1.38 - 0.04×${Re_scaled.toStringAsFixed(1)} = ${Cf.toStringAsFixed(2)}";
       } else {
         Cf = 1.1;
-        message = "Dodecagonal: Re >7×10⁵ ⇒ C_f = 1.1";
+        message = "Dodecagonal: Re >7×10⁵ = > C_f = 1.1";
       }
     } else if (N == 16) {
       // Hexadecagonal (16-sided)
       if (Re <= 2e5) {
         Cf = 1.25;
-        message = "Hexadecagonal: Re ≤2×10⁵ ⇒ C_f = 1.25";
+        message = "Hexadecagonal: Re ≤2×10⁵ = > C_f = 1.25";
       } else if (Re > 2e5 && Re <= 6e5) {
         Cf = 1.475 - 0.1125 * Re_scaled;
         message =
-            "Hexadecagonal: 2×10⁵ < Re ≤6×10⁵ ⇒ C_f = 1.475 - 0.1125×${Re_scaled.toStringAsFixed(1)} = ${Cf.toStringAsFixed(2)}";
+            "Hexadecagonal: 2×10⁵ < Re ≤6×10⁵ = > C_f = 1.475 - 0.1125×${Re_scaled.toStringAsFixed(1)} = ${Cf.toStringAsFixed(2)}";
       } else if (Re > 6e5 && Re <= 14e5) {
         Cf = 0.725 + 0.0125 * Re_scaled;
         message =
-            "Hexadecagonal: 6×10⁵ < Re ≤14×10⁵ ⇒ C_f = 0.725 + 0.0125×${Re_scaled.toStringAsFixed(1)} = ${Cf.toStringAsFixed(2)}";
+            "Hexadecagonal: 6×10⁵ < Re ≤14×10⁵ = > C_f = 0.725 + 0.0125×${Re_scaled.toStringAsFixed(1)} = ${Cf.toStringAsFixed(2)}";
       } else {
         Cf = 0.9;
-        message = "Hexadecagonal: Re >14×10⁵ ⇒ C_f = 0.9";
+        message = "Hexadecagonal: Re >14×10⁵ = > C_f = 0.9";
       }
     } else if (N == 8) {
       // Octagonal (8-sided)
       if (Re <= 2.3e5) {
         Cf = 1.45;
-        message = "Octagonal: Re ≤2.3×10⁵ ⇒ C_f = 1.45";
+        message = "Octagonal: Re ≤2.3×10⁵ = > C_f = 1.45";
       } else if (Re > 2.3e5 && Re <= 3e5) {
         Cf = 1.943 - 0.2143 * Re_scaled;
         message =
-            "Octagonal: 2.3×10⁵ < Re ≤3×10⁵ ⇒ C_f = 1.943 - 0.2143×${Re_scaled.toStringAsFixed(1)} = ${Cf.toStringAsFixed(2)}";
+            "Octagonal: 2.3×10⁵ < Re ≤3×10⁵ = > C_f = 1.943 - 0.2143×${Re_scaled.toStringAsFixed(1)} = ${Cf.toStringAsFixed(2)}";
       } else {
         Cf = 1.3;
-        message = "Octagonal: Re >3×10⁵ ⇒ C_f = 1.3";
+        message = "Octagonal: Re >3×10⁵ = > C_f = 1.3";
       }
     } else {
       // Circular (default case)
       if (Re <= 2e5) {
         Cf = 1.2;
-        message = "Circular: Re ≤2×10⁵ ⇒ C_f = 1.2";
+        message = "Circular: Re ≤2×10⁵ = > C_f = 1.2";
       } else if (Re > 2e5 && Re <= 4e5) {
         Cf = 1.9 - 0.35 * (Re_scaled - 2);
         message =
-            "Circular: 2×10⁵ < Re ≤4×10⁵ ⇒ C_f = 1.9 - 0.35×(Re/10⁵ - 2) = ${Cf.toStringAsFixed(2)}";
+            "Circular: 2×10⁵ < Re ≤4×10⁵ = > C_f = 1.9 - 0.35×(Re/10⁵ - 2) = ${Cf.toStringAsFixed(2)}";
       } else if (Re > 4e5 && Re <= 22e5) {
         Cf = 0.433 + 0.0167 * Re_scaled;
         message =
-            "Circular: 4×10⁵ < Re ≤22×10⁵ ⇒ C_f = 0.433 + 0.0167×${Re_scaled.toStringAsFixed(1)} = ${Cf.toStringAsFixed(2)}";
+            "Circular: 4×10⁵ < Re ≤22×10⁵ = > C_f = 0.433 + 0.0167×${Re_scaled.toStringAsFixed(1)} = ${Cf.toStringAsFixed(2)}";
       } else {
         Cf = 0.8;
-        message = "Circular: Re >22×10⁵ ⇒ C_f = 0.8";
+        message = "Circular: Re >22×10⁵ = > C_f = 0.8";
       }
     }
 
@@ -341,7 +259,7 @@ class Test2 {
     double Mp;
     if (D_t <= threshold) {
       Mp = (fy * (pow(D, 3) - pow(D - 2 * t, 3))) / 6e6;
-      calcSteps.add("D/t ≤ threshold → Full plastic moment capacity: "
+      calcSteps.add("D/t ≤ threshold -> Full plastic moment capacity: "
           "Mp = σy·(D³ - (D-2t)³)/6e6 = ${fy.toStringAsFixed(1)}·(${D.toStringAsFixed(1)}³ - ${(D - 2 * t).toStringAsFixed(1)}³)/6e6 = ${Mp.toStringAsFixed(1)} kNm");
     } else {
       double term = 0.9241 *
@@ -352,9 +270,9 @@ class Test2 {
       double reductionFactor = term - 0.1266;
       double MpFull = (fy * (pow(D, 3) - pow(D - 2 * t, 3))) / 6e6;
       Mp = (MpFull * reductionFactor) / SAFETY_FACTOR_MATERIAL_STEEL;
-
+//If D/T > threshold ,use reduce moment capaaacity else full mp
       calcSteps.addAll([
-        "D/t > threshold → Reduced capacity:",
+        "D/t > threshold -> Reduced capacity:",
         "Reduction Factor = 0.9241·(90γ_mD/(N·E·t))^−0.2258 - 0.1266",
         "   = 0.9241·(90×$SAFETY_FACTOR_MATERIAL_STEEL×${D.toStringAsFixed(1)}/"
             "($N×$YOUNGS_MODULUS×${t.toStringAsFixed(1)}))^−0.2258 - 0.1266 = ${reductionFactor.toStringAsFixed(3)}",
@@ -465,7 +383,7 @@ class Test2 {
           V_uls, D_m, section.height, totalHeight, beta, N, sectionNum + 1);
       double windForceUls = windLoadResult["windForce"];
       String windReport = windLoadResult["report"] ?? "";
-
+      print("test test windforce: $windForceUls");
       section.ulsLoad = windForceUls;
       windReports.add("Section ${sectionNum + 1}:\n$windReport\n");
 
@@ -474,6 +392,8 @@ class Test2 {
           fy, section.baseDia, section.thickness, N, sectionNum + 1);
       double Mp = mpResult["Mp"];
       String mpReport = mpResult["report"] ?? "";
+      print("moment result here: $Mp");
+      print(mpReport);
 
       section.Mp = Mp;
       mpReports.add("Section ${sectionNum + 1}:\n$mpReport\n");
@@ -548,17 +468,17 @@ class Test2 {
       report.writeln("Status: $status");
       report.writeln("-" * 40);
 
-      // print("Section ${sectionNum + 1}:");
-      // print("Applied Moment: ${section.ulsMoment.toStringAsFixed(1)} kNm");
-      // print("Moment Capacity: ${section.Mp.toStringAsFixed(1)} kNm");
-      // print("Utilization: ${utilization.toStringAsFixed(1)}%");
-      // print("Status: $status");
-      // print("-" * 40);
+      print("Section ${sectionNum + 1}:");
+      print("Applied Moment: ${section.ulsMoment.toStringAsFixed(1)} kNm");
+      print("Moment Capacity: ${section.Mp.toStringAsFixed(1)} kNm");
+      print("Utilization: ${utilization.toStringAsFixed(1)}%");
+      print("Status: $status");
+      print("-" * 40);
     }
     return report.toString();
   }
 
-  Map<String, dynamic> calculateSectionLoads(
+  Map<String, dynamic> calculateSectionLoads3(
       List<MastSection> sections,
       double luminaryLoadUls,
       double luminaryLoadSls,
@@ -572,9 +492,10 @@ class Test2 {
     double totalShearUls = luminaryLoadUls / 1000;
     double totalShearSls = luminaryLoadSls / 1000;
     double totalWeight = 0.0;
-
-    for (int idx = 0; idx < sections.length; idx++) {
-      int sectionNum = sections.length - idx;
+    //for (int idx = 0; idx < sections.length; idx++) {
+    for (int idx = sections.length - 1; idx >= 0; idx--) {
+      //int sectionNum = sections.length - idx;
+      int sectionNum = idx + 1;
       report.writeln("\n===== SECTION $sectionNum LOAD ANALYSIS =====");
       // print("\n===== SECTION $sectionNum LOAD ANALYSIS =====");
 
@@ -582,7 +503,7 @@ class Test2 {
       double weight = calculateSectionWeight2(sections[idx], sectionNum);
       totalWeight += weight;
 
-      if (idx == 0) {
+      if (idx == sections.length - 1) {
         // Top section
         double luminaryWeight = equipmentWeight * GRAVITY / 1000;
         totalWeight += luminaryWeight;
@@ -616,8 +537,17 @@ class Test2 {
       double slsMoment =
           luminaryLoadSls * (totalHeight - sections[idx].baseHeight);
 
-      for (int j = 0; j < sections.length - idx; j++) {
-        double leverArm = sections[j].baseHeight - sections[idx].baseHeight;
+      // for (int j = 0; j < sections.length - idx; j++) {
+      //   double leverArm = sections[j].baseHeight - sections[idx].baseHeight;
+      //   ulsMoment += sections[j].ulsLoad * leverArm;
+      //   slsMoment += sections[j].slsLoad * leverArm;
+      //
+      //   print("Lever Arm: $leverArm, Section ULS Load: ${sections[j].ulsLoad}");
+      // }
+      for (int j = idx; j < sections.length; j++) {
+        // Fix: Loop from idx to last section
+        double leverArm =
+            sections[j].center - sections[idx].baseHeight; // Fix: Use center
         ulsMoment += sections[j].ulsLoad * leverArm;
         slsMoment += sections[j].slsLoad * leverArm;
       }
@@ -628,7 +558,8 @@ class Test2 {
       // Corrected moment display
       double luminaryContribution =
           (luminaryLoadUls / 1000) * (totalHeight - sections[idx].baseHeight);
-      double windContribution = sections[idx].ulsMoment - luminaryContribution;
+      // double windContribution = sections[idx].ulsMoment - luminaryContribution;
+      double windContribution = (ulsMoment / 1000) - luminaryContribution;
 
       report.writeln("\n----- Moments -----");
       report.writeln(
@@ -639,13 +570,13 @@ class Test2 {
           "Total Section Moment: ${sections[idx].ulsMoment.toStringAsFixed(1)} kNm");
       report.writeln("=" * 40);
 
-      // print("\n----- Moments -----");
-      // print(
-      //     "Luminary Moment: (${luminaryLoadUls / 1000}kN × ${(totalHeight - sections[idx].baseHeight).toStringAsFixed(1)}m) = ${luminaryContribution.toStringAsFixed(1)}kNm");
-      // print("Wind Load Moments: ${windContribution.toStringAsFixed(1)}kNm");
-      // print(
-      //     "Total Section Moment: ${sections[idx].ulsMoment.toStringAsFixed(1)}kNm");
-      // print("=" * 40);
+      print("\n----- Moments -----");
+      print(
+          "Luminary Moment: (${luminaryLoadUls / 1000}kN × ${(totalHeight - sections[idx].baseHeight).toStringAsFixed(1)}m) = ${luminaryContribution.toStringAsFixed(1)}kNm");
+      print("Wind Load Moments: ${windContribution.toStringAsFixed(1)}kNm");
+      print(
+          "Total Section Moment: ${sections[idx].ulsMoment.toStringAsFixed(1)}kNm");
+      print("=" * 40);
     }
 
     // Foundation reactions
@@ -667,6 +598,249 @@ class Test2 {
 
     print("section x repo: ----$report");
     print("finished!!!");
+
+    return {
+      "foundationUlsMoment": foundationUlsMoment,
+      "foundationAxial": foundationAxial,
+      "foundationShear": foundationShear,
+      "report": report.toString(),
+    };
+  }
+
+  Map<String, dynamic> calculateSectionLoads(
+      List<MastSection> sections,
+      double luminaryLoadUls,
+      double luminaryLoadSls,
+      double equipmentWeight,
+      double totalHeight) {
+    StringBuffer report = StringBuffer();
+
+    report.writeln("\n===== LOAD CALCULATION PROCESS =====");
+
+    double totalShearUls = luminaryLoadUls / 1000;
+    double totalShearSls = luminaryLoadSls / 1000;
+    double totalWeight = 0.0;
+
+    for (int idx = sections.length - 1; idx >= 0; idx--) {
+      int sectionNum = idx + 1;
+      report.writeln("\n===== SECTION $sectionNum LOAD ANALYSIS =====");
+
+      // Axial Load
+      double weight = calculateSectionWeight2(sections[idx], sectionNum);
+      print("calculated section weight $weight kgz");
+      totalWeight += weight;
+      print("total weight now $totalWeight kgz");
+      if (idx == 0) {
+        // Top section
+        double luminaryWeight = equipmentWeight * GRAVITY / 1000;
+        print("calculated luminary weight $luminaryWeight kgz");
+        totalWeight += luminaryWeight;
+        print("total weight now post luminary $totalWeight kgz");
+        report.writeln(
+            "+ Luminary weight: ${luminaryWeight.toStringAsFixed(1)} kN");
+      }
+
+      sections[idx].totalAxial = totalWeight;
+      report.writeln("Weight report: ${weight.toStringAsFixed(1)} kN");
+
+      // Shear Force
+      double sectionShearUls = sections[idx].ulsLoad / 1000;
+      totalShearUls += sectionShearUls;
+      sections[idx].totalShear = totalShearUls;
+
+      report.writeln("\n----- Shear Forces -----");
+      report.writeln(
+          "Section Wind Shear: ${sectionShearUls.toStringAsFixed(1)} kN");
+      report
+          .writeln("Cumulative Shear: ${totalShearUls.toStringAsFixed(1)} kN");
+
+      print("\n----- Shear Forces -----");
+      print("Section Wind Shear: ${sectionShearUls.toStringAsFixed(1)} kN");
+      print("Cumulative Shear: ${totalShearUls.toStringAsFixed(1)} kN");
+
+      // Moment Calculation
+      double ulsMoment =
+          luminaryLoadUls * (totalHeight - sections[idx].baseHeight);
+      double slsMoment =
+          luminaryLoadSls * (totalHeight - sections[idx].baseHeight);
+
+      print("calculated ulsm: ${ulsMoment.toStringAsFixed(1)} ");
+      print("calculated slsm: ${slsMoment.toStringAsFixed(1)} ");
+
+      // for (int j = sections.length - 1; j >= idx; j--) {
+      //   double leverArm = sections[j].baseHeight - sections[idx].baseHeight;
+      //   ulsMoment += sections[j].ulsLoad * leverArm;
+      //   slsMoment += sections[j].slsLoad * leverArm;
+      // }
+      // for (int j = 0; j < sections.length - idx; j++) {
+      //   double leverArm = sections[j].center - sections[idx].baseHeight;
+      //   print(
+      //       "leverArm ${leverArm} = sections[j].center ${sections[j].center} - sections[idx].baseHeight ${sections[idx].baseHeight}");
+      //   ulsMoment += sections[j].ulsLoad * leverArm;
+      //   print(
+      //       "uls moment $ulsMoment for j = $j from sections[j].ulsLoad ${sections[j].ulsLoad} * leverArm $leverArm;");
+      //   slsMoment += sections[j].slsLoad * leverArm;
+      //   print(
+      //       "sls moment $slsMoment for j = $j from sections[j].slsLoad ${sections[j].slsLoad} * leverArm $leverArm;");
+      // }
+
+      for (int j = 0; j < sections.length - idx; j++) {
+        double leverArm = sections[j].center;
+        //- sections[idx].baseHeight;
+        print(
+            "leverArm ${leverArm} = sections[j].center ${sections[j].center} - sections[idx].baseHeight ${sections[idx].baseHeight}");
+
+        ulsMoment += sections[j].ulsLoad * leverArm;
+        print(
+            "uls moment $ulsMoment for j = $j from sections[j].ulsLoad ${sections[j].ulsLoad} * leverArm $leverArm;");
+
+        slsMoment += sections[j].slsLoad * leverArm;
+        print(
+            "sls moment $slsMoment for j = $j from sections[j].slsLoad ${sections[j].slsLoad} * leverArm $leverArm;");
+      }
+
+      sections[idx].ulsMoment = ulsMoment / 1000;
+      sections[idx].slsMoment = slsMoment / 1000;
+
+      // Corrected moment display
+      double luminaryContribution =
+          (luminaryLoadUls / 1000) * (totalHeight - sections[idx].baseHeight);
+      print(
+          "LumContr=${luminaryContribution}===>(luminaryLoadUls = $luminaryLoadUls / 1000)  * (totalHeight ($totalHeight)- sections[idx].baseHeight={${sections[idx].baseHeight})");
+      double windContribution = sections[idx].ulsMoment - luminaryContribution;
+      print(
+          "windContribution= ${windContribution} = sections[idx].ulsMoment (${sections[idx].ulsMoment}) - luminaryContribution ($luminaryContribution);");
+      report.writeln("\n----- Moments -----");
+      report.writeln(
+          "Luminary Moment: (${(luminaryLoadUls / 1000).toStringAsFixed(1)} kN × ${(totalHeight - sections[idx].baseHeight).toStringAsFixed(1)} m) = ${luminaryContribution.toStringAsFixed(1)} kNm");
+      report.writeln(
+          "Wind Load Moments: ${windContribution.toStringAsFixed(1)} kNm");
+      report.writeln(
+          "Total Section Moment: ${sections[idx].ulsMoment.toStringAsFixed(1)} kNm");
+      report.writeln("=" * 40);
+      print("\n----- Moments -----");
+      print(
+          "Luminary Moment: (${luminaryLoadUls / 1000}kN × ${(totalHeight - sections[idx].baseHeight).toStringAsFixed(1)}m) = ${luminaryContribution.toStringAsFixed(1)}kNm");
+      print("Wind Load Moments: ${windContribution.toStringAsFixed(1)}kNm");
+      print(
+          "Total Section Moment: ${sections[idx].ulsMoment.toStringAsFixed(1)}kNm");
+      print("=" * 40);
+    }
+
+    // Foundation reactions
+    double foundationUlsMoment = sections.first.ulsMoment;
+    double foundationAxial = sections.first.totalAxial;
+    double foundationShear = sections.first.totalShear;
+
+    report.writeln("\n===== FINAL FOUNDATION REACTIONS =====");
+    report.writeln("Moment: ${foundationUlsMoment.toStringAsFixed(1)} kNm");
+    report.writeln("Axial:  ${foundationAxial.toStringAsFixed(1)} kN");
+    report.writeln("Shear:  ${foundationShear.toStringAsFixed(1)} kN");
+    report.writeln("=" * 40);
+
+    return {
+      "foundationUlsMoment": foundationUlsMoment,
+      "foundationAxial": foundationAxial,
+      "foundationShear": foundationShear,
+      "report": report.toString(),
+    };
+  }
+
+  Map<String, dynamic> calculateSectionLoads2(
+      List<MastSection> sections,
+      double luminaryLoadUls,
+      double luminaryLoadSls,
+      double equipmentWeight,
+      double totalHeight) {
+    StringBuffer report = StringBuffer();
+    report.writeln("\n===== LOAD CALCULATION PROCESS =====");
+
+    double totalShearUls = luminaryLoadUls / 1000;
+    double totalShearSls = luminaryLoadSls / 1000;
+    double totalWeight = 0.0;
+
+    // Loop in **reverse** order to match Python logic
+    for (int idx = sections.length - 1; idx >= 0; idx--) {
+      int sectionNum = idx + 1;
+      report.writeln("\n===== SECTION $sectionNum LOAD ANALYSIS =====");
+
+      // Axial Load Calculation
+      double weight = calculateSectionWeight2(sections[idx], sectionNum);
+      totalWeight += weight;
+
+      if (idx == sections.length - 1) {
+        // Top section
+        double luminaryWeight = (equipmentWeight * GRAVITY) / 1000;
+        totalWeight += luminaryWeight;
+        report.writeln(
+            "+ Luminary weight: ${luminaryWeight.toStringAsFixed(1)} kN");
+      }
+
+      sections[idx].totalAxial = totalWeight;
+      report.writeln("Weight report: ${weight.toStringAsFixed(1)} kN");
+
+      // Shear Force Calculation
+      double sectionShearUls = sections[idx].ulsLoad / 1000;
+      totalShearUls += sectionShearUls;
+      sections[idx].totalShear = totalShearUls;
+
+      report.writeln("\n----- Shear Forces -----");
+      report.writeln(
+          "Section Wind Shear: ${sectionShearUls.toStringAsFixed(1)} kN");
+      report
+          .writeln("Cumulative Shear: ${totalShearUls.toStringAsFixed(1)} kN");
+
+      // Moment Calculation
+      double ulsMoment =
+          luminaryLoadUls * (totalHeight - sections[idx].baseHeight);
+      double slsMoment =
+          luminaryLoadSls * (totalHeight - sections[idx].baseHeight);
+
+      // Fix: Accumulate wind moments in the correct order
+      for (int j = idx; j < sections.length; j++) {
+        double leverArm = sections[j].center - sections[idx].baseHeight;
+        ulsMoment += sections[j].ulsLoad * leverArm;
+        slsMoment += sections[j].slsLoad * leverArm;
+      }
+
+      sections[idx].ulsMoment = ulsMoment / 1000;
+      sections[idx].slsMoment = slsMoment / 1000;
+
+      // Fix: Correct Wind Contribution Calculation
+      double luminaryContribution =
+          (luminaryLoadUls / 1000) * (totalHeight - sections[idx].baseHeight);
+      double windContribution =
+          (sections[idx].ulsMoment / 1000) - luminaryContribution;
+
+      report.writeln("\n----- Moments -----");
+      report.writeln(
+          "Luminary Moment: (${(luminaryLoadUls / 1000).toStringAsFixed(1)} kN × ${(totalHeight - sections[idx].baseHeight).toStringAsFixed(1)} m) = ${luminaryContribution.toStringAsFixed(1)} kNm");
+      report.writeln(
+          "Wind Load Moments: ${windContribution.toStringAsFixed(1)} kNm");
+      report.writeln(
+          "Total Section Moment: ${sections[idx].ulsMoment.toStringAsFixed(1)} kNm");
+      report.writeln("=" * 40);
+      print("\n----- Moments -----");
+      print(
+          "Luminary Moment: (${luminaryLoadUls / 1000}kN × ${(totalHeight - sections[idx].baseHeight).toStringAsFixed(1)}m) = ${luminaryContribution.toStringAsFixed(1)}kNm");
+      print("Wind Load Moments: ${windContribution.toStringAsFixed(1)}kNm");
+      print(
+          "Total Section Moment: ${sections[idx].ulsMoment.toStringAsFixed(1)}kNm");
+      print("=" * 40);
+    }
+
+    // Foundation reactions
+    double foundationUlsMoment = sections.first.ulsMoment;
+    double foundationAxial = sections.first.totalAxial;
+    double foundationShear = sections.first.totalShear;
+
+    report.writeln("\n===== FINAL FOUNDATION REACTIONS =====");
+    report.writeln("Moment: ${foundationUlsMoment.toStringAsFixed(1)} kNm");
+    report.writeln("Axial:  ${foundationAxial.toStringAsFixed(1)} kN");
+    report.writeln("Shear:  ${foundationShear.toStringAsFixed(1)} kN");
+    report.writeln("=" * 40);
+
+    print("Finished Load Calculation!");
 
     return {
       "foundationUlsMoment": foundationUlsMoment,
@@ -795,6 +969,9 @@ class Test2 {
       String loadCalculationReport,
       String ulsCheckReport,
       String deflectionAndFrequencyReport) async {
+    var fontData2 = await rootBundle.load("assets/fonts/OpenSans-Regular.ttf");
+    final Font ttfBold = Font.ttf(fontData2.buffer.asByteData());
+
     final pdf = pw.Document();
 
     // Combine all reports into one structured string
@@ -835,7 +1012,8 @@ $deflectionAndFrequencyReport
               children: reportSections.map((line) {
                 return pw.Padding(
                   padding: pw.EdgeInsets.symmetric(vertical: 2),
-                  child: pw.Text(line, style: pw.TextStyle(fontSize: 12)),
+                  child: pw.Text(line,
+                      style: pw.TextStyle(fontSize: 12, font: ttfBold)),
                 );
               }).toList(),
             ),
@@ -917,10 +1095,15 @@ $deflectionAndFrequencyReport
       required int terrain2,
       required int exposure2,
       required double equipmentweight2,
+      required String location2,
       required double beta2}) {
     String finalreport = "";
     String finalreport2 = "";
     String userInputRepo = "";
+    String location = "LOCATION : " +
+        location2 +
+        " | DATE: " +
+        DateTime.now().toString().substring(0, 16);
 
     print("=== TR7-Compliant Mast Design Analysis ===");
     // double totalHeight2 = 30.0;
@@ -973,7 +1156,7 @@ $deflectionAndFrequencyReport
       print("Enter yield strength (N/mm²): ");
       double fy = fy2;
       print("Enter mast type (1=Lighting, 2=CCTV): ");
-      int mastType = 2;
+      int mastType = mastType2;
 
       List<double> thicknesses = thicknesses2;
 
@@ -988,8 +1171,10 @@ $deflectionAndFrequencyReport
       print("liminary Area calculate : $luminaryArea");
 
       userInputRepo = """ 
-===== USER INPUT REPORT =====
-
+      {{  $location    }}
+      
+      
+===== USER INPUT  =====
  Environmental Conditions:
 - Material: ${_getMaterialName(materialChoice)}
 - Terrain: ${_getTerrainName(terrainChoice)}
@@ -1015,6 +1200,7 @@ Luminary Details:
 =================================
 """;
 
+      print("inputs------------------> $userInputRepo");
       // Call createTaperedSections and other functions here, like in Python version
       List<MastSection> sections =
           createTaperedSections(totalHeight2, topDia, bottomDia, thicknesses);
@@ -1022,17 +1208,30 @@ Luminary Details:
       //wind loads
       print("starting windloads");
       double V_uls = calculateDesignWindSpeed(Vb, 1);
-      double V_sls =
-          calculateDesignWindSpeed(Vb, mastType) * (mastType == 1 ? 0.2 : 1.0);
+      double V_sls = mastType == 2 ? 22.0 : V_uls * 0.2;
+      // calculateDesignWindSpeed(Vb, mastType) * (mastType == 1 ? 0.2 : 1.0);
       double deltaLum = 1 - 0.1 * log(totalHeight);
       double qLumUls = 0.613 * pow(V_uls, 2);
       double qLumSls = 0.613 * pow(V_sls, 2);
       // double peakStaticPressure = beta * deltaLum * qLumUls;
-      double luminaryLoadSls =
-          1.0 * beta * deltaLum * qLumSls * luminaryProjectedArea;
-      double luminaryLoadUls =
-          1.0 * beta * deltaLum * qLumUls * luminaryProjectedArea;
-
+      double luminaryLoadSls = 1.0 * beta * deltaLum * qLumSls * luminaryArea;
+      double luminaryLoadUls = 1.0 * beta * deltaLum * qLumUls * luminaryArea;
+      print("\n===== WIND LOAD INPUTS =====");
+      print(
+          "V_uls (Ultimate Wind Speed)     : ${V_uls.toStringAsFixed(2)} m/s");
+      print(
+          "V_sls (Serviceability Wind Speed) : ${V_sls.toStringAsFixed(2)} m/s");
+      print(
+          "Delta Factor                     : ${deltaLum.toStringAsFixed(4)}");
+      print(
+          "q_uls (Wind Pressure ULS)        : ${qLumUls.toStringAsFixed(2)} N/m²");
+      print(
+          "q_sls (Wind Pressure SLS)        : ${qLumSls.toStringAsFixed(2)} N/m²");
+      print(
+          "Luminary Load ULS                : ${luminaryLoadUls.toStringAsFixed(2)} N");
+      print(
+          "Luminary Load SLS                : ${luminaryLoadSls.toStringAsFixed(2)} N");
+      print("===================================");
       // Section load analysis
       print("starting section load analysis");
       String set = ":";
