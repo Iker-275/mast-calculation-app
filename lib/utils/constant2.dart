@@ -48,9 +48,39 @@ class MastSection {
 
 class Test2 {
   Map<String, dynamic> getForceCoefficient(double Re, int N) {
-    double Re_scaled = Re / 1e5; // Convert Re to units of 10^5
+    double Re_scaled = Re / 1e5; // Convert Re to units of 10⁵
     double Cf;
     String message;
+
+    String cfReport = """
+=========================================
+            Drag Coefficient (C_f) Report            
+=========================================
+
+For Circular Masts:
+0        < Re ≤ 2 × 10⁵               C_f = 1.2  
+2 × 10⁵ < Re ≤ 4 × 10⁵               C_f = 1.9 - 0.35 × (Re × 10-⁵)  
+4 × 10⁵ < Re ≤ 22 × 10⁵              C_f = 0.433 + 0.0167 × (Re × 10-⁵)  
+22 × 10⁵ < Re                          C_f = 0.8  
+
+For Octagonal Masts (8-sided):
+0        < Re ≤ 2.3 × 10⁵             C_f = 1.45  
+2.3 × 10⁵ < Re ≤ 3.0 × 10⁵           C_f = 1.943 - 0.2143 × (Re × 10-⁵)  
+3.0 × 10⁵ < Re                        C_f = 1.3  
+
+For Dodecagonal Masts (12-sided):
+0        < Re ≤ 2 × 10⁵               C_f = 1.3  
+2 × 10⁵ < Re ≤ 7 × 10⁵               C_f = 1.38 - 0.04 × (Re × 10-⁵)  
+7 × 10⁵ < Re                          C_f = 1.1  
+
+For Hexadecagonal Masts (16-sided):
+0        < Re ≤ 2 × 10⁵               C_f = 1.25  
+2 × 10⁵ < Re ≤ 6 × 10⁵               C_f = 1.475 - 0.1125 × (Re × 10-⁵)  
+6 × 10⁵ < Re ≤ 14 × 10⁵              C_f = 0.725 + 0.0125 × (Re × 10-⁵)  
+14 × 10⁵ < Re                         C_f = 0.9  
+
+=========================================
+""";
 
     if (N == 12) {
       // Dodecagonal (12-sided)
@@ -101,7 +131,9 @@ class Test2 {
         Cf = 1.2;
         message = "Circular: Re ≤2×10⁵ = > C_f = 1.2";
       } else if (Re > 2e5 && Re <= 4e5) {
-        Cf = 1.9 - 0.35 * (Re_scaled - 2);
+        //  Cf = 1.9 - 0.35 * (Re_scaled - 2);
+        Cf = 1.9 - 0.35 * (Re_scaled);
+
         message =
             "Circular: 2×10⁵ < Re ≤4×10⁵ = > C_f = 1.9 - 0.35×(Re/10⁵ - 2) = ${Cf.toStringAsFixed(2)}";
       } else if (Re > 4e5 && Re <= 22e5) {
@@ -262,19 +294,29 @@ class Test2 {
       calcSteps.add("D/t ≤ threshold -> Full plastic moment capacity: "
           "Mp = σy·(D³ - (D-2t)³)/6e6 = ${fy.toStringAsFixed(1)}·(${D.toStringAsFixed(1)}³ - ${(D - 2 * t).toStringAsFixed(1)}³)/6e6 = ${Mp.toStringAsFixed(1)} kNm");
     } else {
-      double term = 0.9241 *
-          pow(
-              (90 * SAFETY_FACTOR_MATERIAL_STEEL * D) /
-                  (N * YOUNGS_MODULUS * t),
-              -0.2258);
+      // double term = 0.9241 *
+      //     pow(
+      //         (90 * SAFETY_FACTOR_MATERIAL_STEEL * D) /
+      //             (N * YOUNGS_MODULUS * t),
+      //         -0.2258);
+      double term =
+          0.9241 * pow((90 * fy * D) / (N * YOUNGS_MODULUS * t), -0.2258);
       double reductionFactor = term - 0.1266;
       double MpFull = (fy * (pow(D, 3) - pow(D - 2 * t, 3))) / 6e6;
       Mp = (MpFull * reductionFactor) / SAFETY_FACTOR_MATERIAL_STEEL;
 //If D/T > threshold ,use reduce moment capaaacity else full mp
+//       calcSteps.addAll([
+//         "D/t > threshold -> Reduced capacity:",
+//         "Reduction Factor = 0.9241·(90γ_mD/(N·E·t))^−0.2258 - 0.1266",
+//         "   = 0.9241·(90×$SAFETY_FACTOR_MATERIAL_STEEL×${D.toStringAsFixed(1)}/"
+//             "($N×$YOUNGS_MODULUS×${t.toStringAsFixed(1)}))^−0.2258 - 0.1266 = ${reductionFactor.toStringAsFixed(3)}",
+//         "Full Mp = ${MpFull.toStringAsFixed(1)} kNm",
+//         "Reduced Mp = (${MpFull.toStringAsFixed(1)} × ${reductionFactor.toStringAsFixed(3)}) / $SAFETY_FACTOR_MATERIAL_STEEL = ${Mp.toStringAsFixed(1)} kNm"
+//       ]);
       calcSteps.addAll([
         "D/t > threshold -> Reduced capacity:",
         "Reduction Factor = 0.9241·(90γ_mD/(N·E·t))^−0.2258 - 0.1266",
-        "   = 0.9241·(90×$SAFETY_FACTOR_MATERIAL_STEEL×${D.toStringAsFixed(1)}/"
+        "   = 0.9241·(90×$fy×${D.toStringAsFixed(1)}/"
             "($N×$YOUNGS_MODULUS×${t.toStringAsFixed(1)}))^−0.2258 - 0.1266 = ${reductionFactor.toStringAsFixed(3)}",
         "Full Mp = ${MpFull.toStringAsFixed(1)} kNm",
         "Reduced Mp = (${MpFull.toStringAsFixed(1)} × ${reductionFactor.toStringAsFixed(3)}) / $SAFETY_FACTOR_MATERIAL_STEEL = ${Mp.toStringAsFixed(1)} kNm"
@@ -1200,6 +1242,36 @@ Luminary Details:
 =================================
 """;
 
+      String cfReport = """
+\n=========================================
+            Drag Coefficient (C_f) Report            
+=========================================
+
+For Circular Masts:
+0        < Re ≤ 2 × 10⁵               C_f = 1.2  
+2 × 10⁵ < Re ≤ 4 × 10⁵               C_f = 1.9 - 0.35 × (Re × 10-⁵)  
+4 × 10⁵ < Re ≤ 22 × 10⁵              C_f = 0.433 + 0.0167 × (Re × 10-⁵)  
+22 × 10⁵ < Re                          C_f = 0.8  
+
+For Octagonal Masts (8-sided):
+0        < Re ≤ 2.3 × 10⁵             C_f = 1.45  
+2.3 × 10⁵ < Re ≤ 3.0 × 10⁵           C_f = 1.943 - 0.2143 × (Re × 10-⁵)  
+3.0 × 10⁵ < Re                        C_f = 1.3  
+
+For Dodecagonal Masts (12-sided):
+0        < Re ≤ 2 × 10⁵               C_f = 1.3  
+2 × 10⁵ < Re ≤ 7 × 10⁵               C_f = 1.38 - 0.04 × (Re × 10-⁵)  
+7 × 10⁵ < Re                          C_f = 1.1  
+
+For Hexadecagonal Masts (16-sided):
+0        < Re ≤ 2 × 10⁵               C_f = 1.25  
+2 × 10⁵ < Re ≤ 6 × 10⁵               C_f = 1.475 - 0.1125 × (Re × 10-⁵)  
+6 × 10⁵ < Re ≤ 14 × 10⁵              C_f = 0.725 + 0.0125 × (Re × 10-⁵)  
+14 × 10⁵ < Re                         C_f = 0.9  
+
+=========================================
+""";
+
       print("inputs------------------> $userInputRepo");
       // Call createTaperedSections and other functions here, like in Python version
       List<MastSection> sections =
@@ -1304,7 +1376,7 @@ Luminary Details:
 
       //generatePDFReport(finalreport.toString() + finalreport2);
       generateAndSaveReport(
-          userInputRepo,
+          userInputRepo + cfReport,
           sectionRep["windreport"] + sectionRep["mpreport"],
           result["report"],
           repo,
